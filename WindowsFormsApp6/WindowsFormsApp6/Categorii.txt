@@ -1,0 +1,5 @@
+CatId	CaTN	Descr
+int	varchar(50)	varchar(100)
+1	lactate	Lapte,Cascaval etc
+2	Carnuri	Carne pui, de porc, de vita etc
+3	Bauturi	Dorna, Gura cainarului etc

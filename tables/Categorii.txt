@@ -1,0 +1,4 @@
+CatId 	CaTN 	Descr
+1	lactate	Lapte,Cascaval etc
+2	Carnuri	Carne pui, de porc, de vita etc
+3	Bauturi	Dorna, Gura cainarului etc

@@ -1,0 +1,11 @@
+PrId	PrN	Price	UnM	Cat
+int	varchar(20)	double	varchar(20)	int
+1	Lapte	4	litru	1
+2	unt	2	kg	1
+3	unt	3	pachete	1
+4	carne de ovine	6	pack 2	2
+5	carne de vita	6	kg	2
+6	carne de vita	8	pack 1	2
+7	bere	7	sticle	3
+8	bere	9	litru	3
+9	Dorna	5	sticle 1,5	3

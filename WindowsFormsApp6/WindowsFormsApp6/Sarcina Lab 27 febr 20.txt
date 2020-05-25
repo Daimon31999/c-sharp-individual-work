@@ -1,0 +1,154 @@
+Sarcina pentru lucr lab 28 febr 2020
+
+Utilizând fragmentele de cod de mai jos crea?i componentele necesare pentru a tansfera datele
+din fi?ierele Categorii, Produse, Vinzari: în trei componente de tip listBox:
+1. În trei componente de tip listBox,
+2. Apoi crea?i trei elemente DataGridView ?i transfera?i datele din ListBoxuri in 
+	componentele DtaGridView respective;
+3. Dupa aceea, crea?i un fi?ier de tip Excel cu trei foi cu denumirile respectve tabelelor,
+4. Transfera?i inforra?ia din componentele DataGridView în fi?ierul nou creat.
+
+
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.IO;
+using System.Diagnostics;
+using Excel = Microsoft.Office.Interop.Excel;
+
+
+
+object mis = Type.Missing;
+        System.Globalization.CultureInfo oldCI =
+                        System.Threading.Thread.CurrentThread.CurrentCulture;
+
+
+Creating Excel Files
+
+ Excel.Application myexcel = new Excel.Application();
+            myexcel.Workbooks.Add();
+            
+           int nw= myexcel.Workbooks.Count;
+           myexcel.Workbooks[1].Worksheets.Add();
+            myexcel.Workbooks[1].Worksheets[1].Name="TotPr1";
+            myexcel.Workbooks[1].Worksheets.Add();
+            myexcel.Workbooks[1].Worksheets.Add();
+            myexcel.Workbooks[1].Worksheets.Add();
+            myexcel.Workbooks[1].SaveAs("c:\\temp1\\MyBook.xlsx");
+            myexcel.Quit();
+            killExcel();
+           
+
+SaveAs, Quit Excel Application, and Kill all Ecxel app from Windows Application
+
+ private void killExcel()
+        {
+            Process[] pProcess = Process.GetProcessesByName("Excel");
+            for (int i = 0; i < pProcess.Length; i++)
+                pProcess[i].Kill();
+        }
+
+
+
+write from text file to listbox
+
+ string ss = "";
+            listBox1.Items.Clear();
+
+            FileStream r_stream = new FileStream(fn, FileMode.Open, FileAccess.ReadWrite);
+            StreamReader readf = new StreamReader(r_stream);
+            while (!readf.EndOfStream.Equals(true))
+            {
+                ss = readf.ReadLine().ToString();
+                listBox1.Items.Add(ss);
+
+            }
+            //listBox1.Items.Add(" ");
+            // listBox1.Items.Add("Only Values! ");
+            r_stream.Close();
+            readf.Close();
+
+
+create s DataGridView
+ 
+
+DW = new DataGridView();
+            DW.ColumnCount = 5;
+            DW.Columns[0].Name = "Prid";
+            DW.Columns[1].Name = "Prn";
+            DW.Columns[2].Name = "UnM";
+            DW.Columns[3].Name = "Price";
+            DW.Columns[4].Name = "Cat";
+            DW.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            DW.Location = new System.Drawing.Point(10, 129);
+           DW.Name = "Products";
+            DW.Size = new System.Drawing.Size(394, 222);
+            this.Controls.Add(DW);
+
+
+From listbox to GridView
+
+
+ int nr= listBox1.Items.Count;
+            DW.Rows.Clear();
+            string[] ss;
+            for (int i = 0; i < nr; i++)
+            {
+                ss = listBox1.Items[i].ToString().Split('\t');
+                int nc = ss.Length;
+                DW.Rows.Add();
+                for (int j = 0; j < nc; j++)
+                    DW.Rows[i].Cells[j].Value = ss[j].ToString();
+                
+            }
+
+
+ 
+
+fromGridView to Excel
+
+
+  System.Threading.Thread.CurrentThread.CurrentCulture =
+                                      new System.Globalization.CultureInfo("en-US");
+            Excel.Application xlApp = new Excel.Application();
+            string prid = "Sheet" + pr.ToString();
+            xlApp.Visible = true;
+            int i = 0, j;
+
+
+            // copying from File1 to File2
+            Excel.Workbook b1 = xlApp.Workbooks.Open(path, mis, mis, mis,
+                mis, mis, mis, mis, mis, mis, mis, mis, mis, mis, mis);
+
+            Excel.Worksheet bs1 = (Excel.Worksheet)b1.Worksheets[prid];
+            Excel.Range range1 = bs1.get_Range("A1", "T500");
+            int r = DW.Rows.Count;
+
+
+            for (i = 10; i <= 8 + r; i++)
+            {
+
+                for (j = 0; j < 4; j++)
+
+                    range1[i, j + 1] = DW.Rows[i - 10].Cells[j].Value.ToString();
+            }
+
+            b1.Save();
+
+            // b2.Save();
+            xlApp.Workbooks.Close();
+
+
+            xlApp.Quit();
+            killExcel();
+            int yy = 0;
+
+
+

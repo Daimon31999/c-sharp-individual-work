@@ -1,0 +1,10 @@
+SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.InitialDirectory = "C:\\";      
+    saveFileDialog1.Title = "Save file Files";
+           
+            saveFileDialog1.Filter = "Text files (*.xlsx)|*.xlsx|All files (*.*)|*.*";
+          
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                pathw.Text = saveFileDialog1.FileName;
+            }
