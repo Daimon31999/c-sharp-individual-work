@@ -1,3 +1,6 @@
+# About
+1) Creates DataBase with tables.
+2) Transfers data between .txt files, List Box, Data Grid View, Excel, MySql. 
 # Screenshots
 ![](./Screenshots/screen1.png)
 
